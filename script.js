@@ -66,7 +66,7 @@ const observer = new IntersectionObserver(function(entries) {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', function() {
-    const animatedElements = document.querySelectorAll('.goal-card, .module-card, .game-card, .tournament-card, .interactive-card, .security-card, .result-card, .timeline-step, .metrics-category');
+    const animatedElements = document.querySelectorAll('.goal-card, .module-card, .game-card, .tournament-card, .interactive-card, .security-card, .result-card, .timeline-step, .metrics-category, .roadmap-item, .phase-card');
     
     animatedElements.forEach(el => {
         el.style.opacity = '0';
@@ -305,4 +305,57 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add loaded class to body for CSS animations
     document.body.classList.add('loaded');
+});
+
+// Future roadmap stagger animation
+document.addEventListener('DOMContentLoaded', function() {
+    const futureSection = document.querySelector('#future');
+    
+    if (futureSection) {
+        const futureObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const roadmapItems = entry.target.querySelectorAll('.roadmap-item');
+                    const phaseCards = entry.target.querySelectorAll('.phase-card');
+                    
+                    // Animate roadmap items
+                    roadmapItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    });
+                    
+                    // Animate phase cards after roadmap items
+                    setTimeout(() => {
+                        phaseCards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                    }, roadmapItems.length * 200 + 500);
+                    
+                    futureObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        futureObserver.observe(futureSection);
+    }
+});
+
+// Feature tags interactive effects
+document.addEventListener('DOMContentLoaded', function() {
+    const featureTags = document.querySelectorAll('.feature-tag');
+    
+    featureTags.forEach(tag => {
+        tag.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+        });
+        
+        tag.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
 });
