@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://dimariyalil.github.io/lilag2/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
